@@ -1,0 +1,225 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &110314
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 402886}
+  - 114: {fileID: 11489170}
+  m_Layer: 0
+  m_Name: GlobalGameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &402886
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 110314}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+--- !u!114 &11489170
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 110314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 540db2bcbbe11487ebc77b2bbf36c0d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  quests:
+  - id: 0
+    name: Starting quest
+    desc: The quest you start with.
+    isComplete: 0
+  - id: 1
+    name: Some other quest
+    desc: Hunt rats or something.s
+    isComplete: 1
+  - id: 3
+    name: A more dangerous quest
+    desc: Hunt dragons?
+    isComplete: 1
+  currentScene: 
+  currentPClocation: {x: 10, y: 5, z: 0}
+  possibleBattleScenes: []
+  characters:
+  - id: 0
+    name: Fred
+    level: 0
+    experience: 0
+    characterClassID: 0
+    characterClass:
+      id: 0
+      name: 
+      healthMin: 0
+      healthMax: 0
+      strengthMin: 0
+      strengthMax: 0
+      defenseMin: 0
+      defenseMax: 0
+      speedMin: 0
+      speedMax: 0
+      intelligenceMin: 0
+      intelligenceMax: 0
+      charismaMin: 0
+      charismaMax: 0
+    currentHealth: 0
+    totalHealth: 0
+    baseStrength: 0
+    totalStrength: 0
+    baseDefense: 0
+    totalDefense: 0
+    baseSpeed: 0
+    totalSpeed: 0
+    baseIntelligence: 0
+    totalIntelligence: 0
+    baseCharisma: 0
+    totalCharisma: 0
+    abilities: []
+  - id: 1
+    name: John
+    level: 1
+    experience: 20
+    characterClassID: 0
+    characterClass:
+      id: 0
+      name: 
+      healthMin: 0
+      healthMax: 0
+      strengthMin: 0
+      strengthMax: 0
+      defenseMin: 0
+      defenseMax: 0
+      speedMin: 0
+      speedMax: 0
+      intelligenceMin: 0
+      intelligenceMax: 0
+      charismaMin: 0
+      charismaMax: 0
+    currentHealth: 0
+    totalHealth: 0
+    baseStrength: 0
+    totalStrength: 0
+    baseDefense: 0
+    totalDefense: 0
+    baseSpeed: 0
+    totalSpeed: 0
+    baseIntelligence: 0
+    totalIntelligence: 0
+    baseCharisma: 0
+    totalCharisma: 0
+    abilities: []
+  characterClasses:
+  - id: 0
+    name: Fighter
+    healthMin: 10
+    healthMax: 10
+    strengthMin: 10
+    strengthMax: 10
+    defenseMin: 10
+    defenseMax: 10
+    speedMin: 10
+    speedMax: 10
+    intelligenceMin: 10
+    intelligenceMax: 10
+    charismaMin: 10
+    charismaMax: 10
+  abilities: []
+  pcGo: {fileID: 0}
+  player:
+    name: Ray
+    party:
+    - id: 0
+      name: 
+      level: 0
+      experience: 0
+      characterClassID: 0
+      characterClass:
+        id: 0
+        name: 
+        healthMin: 0
+        healthMax: 0
+        strengthMin: 0
+        strengthMax: 0
+        defenseMin: 0
+        defenseMax: 0
+        speedMin: 0
+        speedMax: 0
+        intelligenceMin: 0
+        intelligenceMax: 0
+        charismaMin: 0
+        charismaMax: 0
+      currentHealth: 0
+      totalHealth: 0
+      baseStrength: 0
+      totalStrength: 0
+      baseDefense: 0
+      totalDefense: 0
+      baseSpeed: 0
+      totalSpeed: 0
+      baseIntelligence: 0
+      totalIntelligence: 0
+      baseCharisma: 0
+      totalCharisma: 0
+      abilities: []
+  enemy:
+    name: 
+    party:
+    - id: 0
+      name: 
+      level: 0
+      experience: 0
+      characterClassID: 0
+      characterClass:
+        id: 0
+        name: 
+        healthMin: 0
+        healthMax: 0
+        strengthMin: 0
+        strengthMax: 0
+        defenseMin: 0
+        defenseMax: 0
+        speedMin: 0
+        speedMax: 0
+        intelligenceMin: 0
+        intelligenceMax: 0
+        charismaMin: 0
+        charismaMax: 0
+      currentHealth: 0
+      totalHealth: 0
+      baseStrength: 0
+      totalStrength: 0
+      baseDefense: 0
+      totalDefense: 0
+      baseSpeed: 0
+      totalSpeed: 0
+      baseIntelligence: 0
+      totalIntelligence: 0
+      baseCharisma: 0
+      totalCharisma: 0
+      abilities: []
+  localGameManager: {fileID: 0}
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 110314}
+  m_IsPrefabParent: 1

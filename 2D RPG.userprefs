@@ -1,0 +1,17 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Gameplay/Dialogue.cs">
+    <Files>
+      <File FileName="Assets/Scripts/Game Management/GameManager.cs" Line="133" Column="5" />
+      <File FileName="Assets/Scripts/Game Management/LocalGameManager.cs" Line="19" Column="3" />
+      <File FileName="Assets/Scripts/Game Management/Instantiator.cs" Line="24" Column="3" />
+      <File FileName="Assets/Scripts/Gameplay/CharacterGameObjectStats.cs" Line="24" Column="5" />
+      <File FileName="Assets/Scripts/Gameplay/ObjectTriggerAction.cs" Line="36" Column="4" />
+      <File FileName="Assets/Scripts/Gameplay/Dialogue.cs" Line="92" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
