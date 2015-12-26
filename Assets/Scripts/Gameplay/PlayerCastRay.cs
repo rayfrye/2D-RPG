@@ -15,19 +15,25 @@ public class PlayerCastRay : MonoBehaviour
 	{
 		if (Input.GetKeyDown (KeyCode.Space)) 
 		{
-			castRay ();
+			castDialogueRay ();
 		}
 	}
 
-	void castRay()
+	void castDialogueRay()
+	{
+		dialogueHits (getHits(.75f));
+	}
+
+	RaycastHit[] getHits(float distance)
 	{
 		Vector2 forward = dir ();
 		Debug.DrawRay (transform.position, forward, Color.red);
 		RaycastHit[] hits;
 		Ray ray = new Ray (transform.position, forward);
+		
+		hits = Physics.RaycastAll (ray,distance);
 
-		hits = Physics.RaycastAll (ray,.75f);
-		handleHits (hits);
+		return hits;
 	}
 
 	Vector2 dir()
@@ -66,7 +72,7 @@ public class PlayerCastRay : MonoBehaviour
 		return dir;
 	}
 
-	void handleHits(RaycastHit[] hits)
+	void dialogueHits(RaycastHit[] hits)
 	{
 		foreach (RaycastHit hit in hits) 
 		{

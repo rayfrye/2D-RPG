@@ -36,6 +36,7 @@ public class Dialogue : MonoBehaviour
 		EndConversation
 		,GoToDialogueItem
 		,StartBattle
+		,CompleteQuest
 	}
 	#endregion classes
 
@@ -43,16 +44,17 @@ public class Dialogue : MonoBehaviour
 	public LocalGameManager localGameManager;
 	public GameManager gameManager;
 	public List<DialogueItem> dialogueItems = new List<DialogueItem>();
-	public GameObject canvasDialogue;
-	public Text txt_Dialogue;
-	public GameObject pnl_Responses;
-	public GameObject btn_Response;
+	public DialogueCanvas dialogueCanvas;
 
 	public int currentDialogueItemID;
 	#endregion variables
 
 	public void setupDialogue()
 	{
+		localGameManager.isNotPaused = 0;
+
+		setDirection ();
+
 		clearBtnResponses ();
 
 		DialogueItem d = dialogueItems [currentDialogueItemID];
@@ -62,17 +64,27 @@ public class Dialogue : MonoBehaviour
 			d = dialogueItems[getCurrentDialogueItem ()];
 		}
 
-		canvasDialogue.SetActive (true);
-		txt_Dialogue.text = replaceSpecialText (d.text);
+		dialogueCanvas.canvasDialogue.SetActive (true);
+
+		dialogueCanvas.txt_Dialogue.text = "";
+
+		CharacterGameObjectStats charGoStats = transform.GetComponent<CharacterGameObjectStats> ();
+
+		if (charGoStats != null) 
+		{
+			dialogueCanvas.txt_Dialogue.text = charGoStats.character.name + ":\n";
+		}
+
+		dialogueCanvas.txt_Dialogue.text += replaceSpecialText (d.text);
 
 		if (d.dialogueResponses.Count > 0) 
 		{
-			pnl_Responses.SetActive (true);
+			dialogueCanvas.pnl_Responses.SetActive (true);
 
 			foreach (DialogueResponse dialogueResponse in d.dialogueResponses)
 			{
-				GameObject btn = (GameObject) Instantiate (btn_Response);
-				btn.transform.SetParent(pnl_Responses.transform);
+				GameObject btn = (GameObject) Instantiate (dialogueCanvas.btn_Response);
+				btn.transform.SetParent(dialogueCanvas.pnl_Responses.transform);
 
 				RectTransform rt = btn.GetComponent<RectTransform>();
 				rt.localScale = new Vector2(1,1);
@@ -87,14 +99,52 @@ public class Dialogue : MonoBehaviour
 		}
 	}
 
+	void setDirection()
+	{
+		PlayerController.Direction playerDir = localGameManager.gameManager.pcGo.transform.GetComponent<PlayerController> ().currentDirection;
+		PlayerController thisController = transform.GetComponent<PlayerController> ();
+
+		if (thisController != null) 
+		{
+			switch (playerDir) 
+			{
+			case PlayerController.Direction.East:
+			{
+				thisController.currentDirection = PlayerController.Direction.West;
+				break;
+			}
+			case PlayerController.Direction.West:
+			{
+				thisController.currentDirection = PlayerController.Direction.East;
+				break;
+			}
+			case PlayerController.Direction.North:
+			{
+				thisController.currentDirection = PlayerController.Direction.South;
+				break;
+			}
+			case PlayerController.Direction.South:
+			{
+				thisController.currentDirection = PlayerController.Direction.North;
+				break;
+			}
+			default:
+			{
+				thisController.currentDirection = PlayerController.Direction.South;
+				break;
+			}
+			}
+		}
+	}
+
 	string replaceSpecialText(string s)
 	{
-		return s.Replace ("<PlayerName>", localGameManager.gameManager.player.name);
+		return s.Replace ("<PlayerName>", localGameManager.gameManager.saveGame);
 	}
 
 	public void clearBtnResponses()
 	{
-		foreach (Transform t in pnl_Responses.transform)
+		foreach (Transform t in dialogueCanvas.pnl_Responses.transform)
 		{
 			Destroy (t.gameObject);
 		}
@@ -119,6 +169,11 @@ public class Dialogue : MonoBehaviour
 			btn.GetComponent<Button>().onClick.AddListener(() => startBattle());
 			break;
 		}
+		case DialogueResponseActionTypes.CompleteQuest:
+		{
+			btn.GetComponent<Button>().onClick.AddListener(() => completeQuest (action.dialogueResponseActionValue));
+			break;
+		}
 		default:
 		{
 			break;
@@ -132,22 +187,22 @@ public class Dialogue : MonoBehaviour
 
 		foreach (DialogueItem dialogueItem in dialogueItems) 
 		{
+			bool prereqsComplete = false;
+
 			if(dialogueItem.questPrerequisiteIDs.Count > 0)
 			{
-				bool prereqsComplete = true;
-
 				foreach(int questPrerequisiteID in dialogueItem.questPrerequisiteIDs)
 				{
-					if(!localGameManager.gameManager.quests[questPrerequisiteID].isComplete)
+					if(localGameManager.gameManager.quests[questPrerequisiteID].isComplete)
 					{
-						prereqsComplete = false;
+						prereqsComplete = true;
 					}
 				}
+			}
 
-				if(prereqsComplete)
-				{
-					id = dialogueItem.id;
-				}
+			if(prereqsComplete)
+			{
+				id = dialogueItem.id;
 			}
 		}
 
@@ -158,8 +213,9 @@ public class Dialogue : MonoBehaviour
 	{
 		clearBtnResponses ();
 		currentDialogueItemID = 0;
-		canvasDialogue.SetActive (false);
-		pnl_Responses.SetActive (false);
+		dialogueCanvas.canvasDialogue.SetActive (false);
+		dialogueCanvas.pnl_Responses.SetActive (false);
+		localGameManager.isNotPaused = 1;
 	}
 
 	public void goToDialogueItem(int dialogueID)
@@ -171,9 +227,47 @@ public class Dialogue : MonoBehaviour
 	public void startBattle()
 	{
 		endConversation ();
-		string sceneToLoad = gameManager.possibleBattleScenes [Random.Range (0, gameManager.possibleBattleScenes.Count)];
-		Debug.Log ("Starting Battle at " + sceneToLoad);
 
+		localGameManager.gameManager.enemy.party = battleEnemies (new List<GameManager.Character> ());
+
+		string sceneToLoad = localGameManager.possibleBattleScenes [Random.Range (0, localGameManager.possibleBattleScenes.Count)];
+		Debug.Log ("Starting Battle at " + sceneToLoad);
+		GameObject instantiator_go = GameObject.Find ("Instantiator");
+		SaveData saveData = instantiator_go.GetComponent<SaveData> ();
+		Instantiator instantiator = instantiator_go.GetComponent<Instantiator> ();
+		Vector3 pos = instantiator.gm.pcGo.GetComponent<RectTransform> ().localPosition;
+		saveData.saveData (instantiator.gm,instantiator.gm.player.scene,pos,"","FALSE");
 		Application.LoadLevel (sceneToLoad);
+	}
+
+	public List<GameManager.Character> battleEnemies(List<GameManager.Character> enemies)
+	{
+		List<GameManager.Character> battleEnemies = new List<GameManager.Character>();
+
+		if (enemies.Count == 0) 
+		{
+			List<int> availableEnemyIDs = localGameManager.possibleEnemyIDs;
+			int numOfEnemies = Random.Range (1,5);
+
+			for(int i = 0; i < numOfEnemies; i++)
+			{
+				int enemyIDIndex = Random.Range (0,availableEnemyIDs.Count);
+				int enemyID = availableEnemyIDs[enemyIDIndex];
+				localGameManager.gameManager.characters[enemyID].currentHealth = localGameManager.gameManager.characters[enemyID].totalHealth;
+				battleEnemies.Add (localGameManager.gameManager.characters[enemyID]);
+				availableEnemyIDs.Remove (enemyID);
+			}
+		}
+		else 
+		{
+			battleEnemies = enemies;
+		}
+
+		return battleEnemies;
+	}
+
+	public void completeQuest(int questID)
+	{
+		localGameManager.gameManager.quests [questID].isComplete = true;
 	}
 }

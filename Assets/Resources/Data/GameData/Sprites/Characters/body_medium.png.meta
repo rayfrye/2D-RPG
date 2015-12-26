@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 80fb6bcb42dda44948f3557e9fdbf5f1
-timeCreated: 1447648863
+timeCreated: 1448373644
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -10,6 +10,12 @@ TextureImporter:
     21300006: body_medium_3
     21300008: body_medium_4
     21300010: body_medium_5
+    21300012: body_medium_6
+    21300014: body_medium_7
+    21300016: body_medium_8
+    21300018: body_medium_9
+    21300020: body_medium_10
+    21300022: body_medium_11
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -59,59 +65,109 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 180
-        width: 20
-        height: 20
+        y: 576
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: body_medium_1
       rect:
         serializedVersion: 2
-        x: 20
-        y: 180
-        width: 20
-        height: 20
+        x: 64
+        y: 576
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: body_medium_2
       rect:
         serializedVersion: 2
-        x: 40
-        y: 180
-        width: 20
-        height: 20
+        x: 128
+        y: 576
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: body_medium_3
       rect:
         serializedVersion: 2
-        x: 0
-        y: 160
-        width: 20
-        height: 20
+        x: 192
+        y: 576
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: body_medium_4
       rect:
         serializedVersion: 2
-        x: 20
-        y: 160
-        width: 20
-        height: 20
+        x: 256
+        y: 576
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: body_medium_5
       rect:
         serializedVersion: 2
-        x: 40
-        y: 160
-        width: 20
-        height: 20
+        x: 320
+        y: 576
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: body_medium_6
+      rect:
+        serializedVersion: 2
+        x: 384
+        y: 576
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: body_medium_7
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 576
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: body_medium_8
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 576
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: body_medium_9
+      rect:
+        serializedVersion: 2
+        x: 576
+        y: 576
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: body_medium_10
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 512
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

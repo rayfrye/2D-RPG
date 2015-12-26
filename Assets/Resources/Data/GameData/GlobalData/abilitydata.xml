@@ -1,0 +1,10 @@
+<data>
+	<ability>
+		<id>0</id>
+		<name>Punch</name>
+		<functionName>Punch</functionName>
+		<abilityTypeText>Melee</abilityTypeText>
+		<numSides>6</numSides>
+		<numDice>1</numDice>
+	</ability>
+</data>

@@ -1,0 +1,188 @@
+fileFormatVersion: 2
+guid: 5309618cdd42f4bc396892b8bae5a0b7
+timeCreated: 1450755944
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: buildings_gwain_0
+    21300002: buildings_gwain_1
+    21300004: buildings_gwain_2
+    21300006: buildings_gwain_3
+    21300008: buildings_gwain_4
+    21300010: buildings_gwain_5
+    21300012: buildings_gwain_6
+    21300014: buildings_gwain_7
+    21300016: buildings_gwain_8
+    21300018: buildings_gwain_9
+    21300020: buildings_gwain_10
+    21300022: buildings_gwain_11
+    21300024: buildings_gwain_12
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -3
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: 0
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 20
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: buildings_gwain_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 865
+        width: 97
+        height: 135
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: buildings_gwain_1
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 886
+        width: 90
+        height: 60
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: buildings_gwain_2
+      rect:
+        serializedVersion: 2
+        x: 290
+        y: 879
+        width: 214
+        height: 77
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: buildings_gwain_3
+      rect:
+        serializedVersion: 2
+        x: 550
+        y: 879
+        width: 179
+        height: 77
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: buildings_gwain_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 700
+        width: 97
+        height: 118
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: buildings_gwain_5
+      rect:
+        serializedVersion: 2
+        x: 151
+        y: 701
+        width: 97
+        height: 135
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: buildings_gwain_6
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 735
+        width: 150
+        height: 77
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: buildings_gwain_7
+      rect:
+        serializedVersion: 2
+        x: 567
+        y: 782
+        width: 34
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: buildings_gwain_8
+      rect:
+        serializedVersion: 2
+        x: 606
+        y: 782
+        width: 33
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: buildings_gwain_9
+      rect:
+        serializedVersion: 2
+        x: 566
+        y: 744
+        width: 33
+        height: 34
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: buildings_gwain_10
+      rect:
+        serializedVersion: 2
+        x: 607
+        y: 745
+        width: 28
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: buildings_gwain_11
+      rect:
+        serializedVersion: 2
+        x: 10
+        y: 424
+        width: 662
+        height: 240
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

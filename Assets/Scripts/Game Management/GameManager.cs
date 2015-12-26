@@ -19,8 +19,10 @@ public class GameManager : MonoBehaviour
 	public class Player
 	{
 		public string name;
-
+		public string characterSprite;
 		public List<Character> party = new List<Character>();
+		public string scene;
+		public Vector3 pos;
 	}
 
 	[System.Serializable]
@@ -99,6 +101,8 @@ public class GameManager : MonoBehaviour
 	#endregion classes
 
 	#region variables
+	public GameObject instantiator;
+	public string saveGame;
 	public List<Quest> quests = new List<Quest>();
 	public string currentScene;
 	public Vector3 currentPClocation;
@@ -125,17 +129,6 @@ public class GameManager : MonoBehaviour
 		setupPCGo ();
 	}
 
-	void Awake()
-	{
-		setupLocalGameManager ();
-		setupPCGo ();
-
-		//DontDestroyOnLoad (this);
-		assignCharacterStats (characters);
-		player.party = assignCharacter (player.party);
-		enemy.party = assignCharacter (enemy.party);
-	}
-
 	public void setupLocalGameManager()
 	{
 		localGameManager = GameObject.Find ("LocalGameManager");
@@ -145,23 +138,14 @@ public class GameManager : MonoBehaviour
 	public void setupPCGo()
 	{
 		pcGo = GameObject.FindGameObjectWithTag ("Player");
-	}
 
-	public void setupScene()
-	{
-		//pcGo.GetComponent<RectTransform> ().localPosition = currentPClocation;
-	}
-
-	public List<Character> assignCharacter(List<Character> cs)
-	{
-		List<Character> party = new List<Character> ();
-
-		foreach(Character c in cs)
+		if (pcGo) 
 		{
-			party.Add (characters[c.id]);
+			PlayerController pcGoPlayerController = pcGo.GetComponent<PlayerController> ();
+			pcGo.GetComponent<RectTransform> ().localPosition = player.pos;
+			pcGoPlayerController.spriteName = player.characterSprite;
+			pcGoPlayerController.setupSprites ();
 		}
-
-		return party;
 	}
 
 	public void assignCharacterStats(List<Character> cs)
@@ -169,7 +153,6 @@ public class GameManager : MonoBehaviour
 		foreach (Character character in cs) 
 		{
 			assignCharacterClassStats(character,character.characterClassID);
-
 		}
 	}
 
@@ -188,6 +171,5 @@ public class GameManager : MonoBehaviour
 
 			c.abilities[i] = a;
 		}
-
 	}
 }

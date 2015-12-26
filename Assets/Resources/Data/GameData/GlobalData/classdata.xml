@@ -1,0 +1,18 @@
+<data>
+	<class>
+		<id>0</id>
+		<name>Fighter</name>
+		<healthMin>10</healthMin>
+		<healthMax>10</healthMax>
+		<strengthMin>10</strengthMin>
+		<strengthMax>10</strengthMax>
+		<defenseMin>10</defenseMin>
+		<defenseMax>10</defenseMax>
+		<speedMin>10</speedMin>
+		<speedMax>10</speedMax>
+		<intelligenceMin>10</intelligenceMin>
+		<intelligenceMax>10</intelligenceMax>
+		<charismaMin>10</charismaMin>
+		<charismaMax>10</charismaMax>
+	</class>
+</data>

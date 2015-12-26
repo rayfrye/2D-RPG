@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class CharacterGameObjectStats : MonoBehaviour 
 {
 	#region components
-	public GameManager gameManager;
+	public LocalGameManager localGameManager;
 	#endregion components
 
 	#region variables
@@ -16,11 +16,11 @@ public class CharacterGameObjectStats : MonoBehaviour
 
 	void Start()
 	{
-		getCharacter ();
+		//getCharacter ();
 	}
 
 	void getCharacter()
 	{
-		//character = gameManager.characters [characterID];
+		character = localGameManager.gameManager.characters [characterID];
 	}
 }

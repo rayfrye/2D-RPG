@@ -5,7 +5,7 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{575CFB57-3C26-B9A1-7D51-61557CF69D6D}</ProjectGuid>
+	<ProjectGuid>{AF9649D8-629F-FA67-8B1F-7976A9E7AF3D}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
@@ -51,17 +51,27 @@
      <Compile Include="Assets\Scripts\Game Management\LocalGameManager.cs" />
      <Compile Include="Assets\Scripts\Game Management\LocalGameManagerBattle.cs" />
      <Compile Include="Assets\Scripts\Gameplay\Animation2D.cs" />
+     <Compile Include="Assets\Scripts\Gameplay\Animation2DParent.cs" />
      <Compile Include="Assets\Scripts\Gameplay\CharacterGameObjectStats.cs" />
      <Compile Include="Assets\Scripts\Gameplay\Dialogue.cs" />
      <Compile Include="Assets\Scripts\Gameplay\ObjectTriggerAction.cs" />
      <Compile Include="Assets\Scripts\Gameplay\PlayerCastRay.cs" />
      <Compile Include="Assets\Scripts\Gameplay\PlayerController.cs" />
+     <Compile Include="Assets\Scripts\Gameplay\SaveData.cs" />
      <Compile Include="Assets\Scripts\Gameplay\SmoothCamera2D.cs" />
+     <Compile Include="Assets\Scripts\SceneSpecificScripts\Gwain.cs" />
+     <Compile Include="Assets\Scripts\UI\DialogueCanvas.cs" />
      <Compile Include="Assets\Scripts\UI\MainMenu.cs" />
+     <Compile Include="Assets\Scripts\UI\SpriteTile.cs" />
      <Compile Include="Assets\Scripts\UI\btn_CharacterStatus.cs" />
-     <None Include="Assets\Resources\Data\SaveData\Frye.xml" />
+     <None Include="Assets\Resources\Data\GameData\SaveGameTemplate\playerdata.xml" />
+     <None Include="Assets\Resources\Data\GameData\SaveGameTemplate\questdata.xml" />
+     <None Include="Assets\Resources\Data\GameData\SaveGameTemplate\characterdata.xml" />
+     <None Include="Assets\Resources\Data\GameData\GlobalData\classdata.xml" />
+     <None Include="Assets\Resources\Data\SaveData\Frye\questdata.xml" />
+     <None Include="Assets\Resources\Data\GameData\GlobalData\abilitydata.xml" />
      <None Include="Assets\Resources\Data\SaveData\Frye\characterdata.xml" />
-     <None Include="Assets\Resources\Data\SaveData\Frye1.xml" />
+     <None Include="Assets\Resources\Data\SaveData\Frye\playerdata.xml" />
  <Reference Include="UnityEngine.Analytics">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
  </Reference>

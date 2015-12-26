@@ -1,22 +1,29 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Animation2D: MonoBehaviour 
 {
 
 	public float FPS;
 	public bool isLooping;
-	public Sprite[] frames;
+	public List<Sprite> frames = new List<Sprite>();
 	public bool playOnStartup = false;
-	private SpriteRenderer outputRenderer;
+	public bool flipSprite = false;
+	public SpriteRenderer outputRenderer;
 	private float secondsToWait;
 	
 	private int currentFrame;
 	private bool stopped = false;
 
-	public void Awake () 
+	public void Start () 
 	{
 		outputRenderer = this.GetComponent<SpriteRenderer>();
+
+		if (flipSprite)
+		{
+			this.GetComponent<RectTransform> ().localScale = new Vector3 (-1, 1, 1);
+		}
 
 		currentFrame = 0;
 		if(FPS > 0) 
@@ -41,11 +48,11 @@ public class Animation2D: MonoBehaviour
 		stopped = false;
 		outputRenderer.enabled = true;
 		
-		if(frames.Length > 1) 
+		if(frames.Count > 1) 
 		{
 			Animate();
 		}
-		else if(frames.Length > 0) 
+		else if(frames.Count > 0) 
 		{
 			outputRenderer.sprite = frames[0];
 		}
@@ -54,7 +61,7 @@ public class Animation2D: MonoBehaviour
 	public virtual void Animate() 
 	{
 		CancelInvoke("Animate");
-		if(currentFrame >= frames.Length) 
+		if(currentFrame >= frames.Count) 
 		{
 			if(!isLooping) 
 			{
