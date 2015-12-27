@@ -1,0 +1,17 @@
+<data>
+	<name>Frye</name>
+	<characterSprite>archer_001</characterSprite>
+	<scene>Gwain</scene>
+	<waypoint_name></waypoint_name>
+	<use_coordinates>FALSE</use_coordinates>
+	<position_x>32.61514</position_x>
+	<position_y>26.75613</position_y>
+	<position_z>7.127368E-10</position_z>
+	<party>
+		<id>0</id>
+	</party>
+	<enemyparty>
+		<id>3</id>
+		<id>1</id>
+	</enemyparty>
+</data>

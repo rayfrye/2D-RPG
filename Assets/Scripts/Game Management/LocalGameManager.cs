@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using UnityEditor;
+//using UnityEditor;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -22,9 +22,11 @@ public class LocalGameManager : MonoBehaviour
 		gameManager = gm;
 		addBattleScenes ();
 
-		int startIndex = EditorApplication.currentScene.LastIndexOf ("/") + 1;
-		string sceneName = EditorApplication.currentScene.Substring (startIndex, EditorApplication.currentScene.Length - startIndex);
-		sceneName = sceneName.Substring (0, sceneName.IndexOf ("."));
+		//int startIndex = EditorApplication.currentScene.LastIndexOf ("/") + 1;
+		//string sceneName = EditorApplication.currentScene.Substring (startIndex, EditorApplication.currentScene.Length - startIndex);
+
+		string sceneName = Application.loadedLevelName;
+		//sceneName = sceneName.Substring (0, sceneName.IndexOf ("."));
 
 		GameObject sceneManager = GameObject.Find (gm.player.scene);
 

@@ -193,6 +193,7 @@ public class Dialogue : MonoBehaviour
 			{
 				foreach(int questPrerequisiteID in dialogueItem.questPrerequisiteIDs)
 				{
+					print (questPrerequisiteID);
 					if(localGameManager.gameManager.quests[questPrerequisiteID].isComplete)
 					{
 						prereqsComplete = true;
@@ -205,7 +206,7 @@ public class Dialogue : MonoBehaviour
 				id = dialogueItem.id;
 			}
 		}
-
+		print (id);
 		return id;
 	}
 

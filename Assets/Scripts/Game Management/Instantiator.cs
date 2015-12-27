@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
-using UnityEditor;
+//using UnityEditor;
 using System.Collections;
+using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
 using System.Collections.Generic;
@@ -14,6 +15,8 @@ public class Instantiator : MonoBehaviour
 
 	void Start()
 	{
+		saveGame = loadSceneData();
+
 		if (GameObject.Find ("GlobalGameManager"))
 		{
 			Debug.Log ("GlobalGameManager already exists, not instantiating a new one, that would be silly.");
@@ -46,13 +49,20 @@ public class Instantiator : MonoBehaviour
 		return gm;
 	}
 
+	public string loadSceneData()
+	{
+		//TextAsset content = (TextAsset) Resources.Load("Data/SaveData/currentSaveGame");  
+		string content = File.ReadAllText ("SaveData/currentSaveGame.txt");
+ 		return content;
+	}
+
 	public List<GameManager.Quest> loadQuestData()
 	{
 		List <GameManager.Quest> quests = new List<GameManager.Quest> ();
 
 		XmlDocument xml = new XmlDocument ();
 		
-		string content = System.IO.File.ReadAllText( Application.dataPath + "/Resources/Data/SaveData/" + saveGame + "/questdata.xml");
+		string content = File.ReadAllText("SaveData/" + saveGame + "/questdata.xml");
 		xml.LoadXml( content );
 
 		foreach (XmlNode node in xml.DocumentElement.SelectNodes ("/data/quest")) 
@@ -76,7 +86,7 @@ public class Instantiator : MonoBehaviour
 		
 		XmlDocument xml = new XmlDocument ();
 		
-		string content = System.IO.File.ReadAllText( Application.dataPath + "/Resources/Data/GameData/GlobalData/classdata.xml");
+		string content = System.IO.File.ReadAllText( "Assets/Resources/Data/GameData/GlobalData/classdata.xml");
 		xml.LoadXml( content );
 		
 		foreach (XmlNode node in xml.DocumentElement.SelectNodes ("/data/class")) 
@@ -110,7 +120,7 @@ public class Instantiator : MonoBehaviour
 		
 		XmlDocument xml = new XmlDocument ();
 		
-		string content = System.IO.File.ReadAllText( Application.dataPath + "/Resources/Data/SaveData/" + saveGame + "/characterdata.xml");
+		string content = System.IO.File.ReadAllText( "SaveData/" + saveGame + "/characterdata.xml");
 		xml.LoadXml( content );
 		
 		foreach (XmlNode node in xml.DocumentElement.SelectNodes ("/data/character")) 
@@ -153,7 +163,7 @@ public class Instantiator : MonoBehaviour
 
 		XmlDocument xml = new XmlDocument ();
 		
-		string content = System.IO.File.ReadAllText( Application.dataPath + "/Resources/Data/SaveData/" + saveGame + "/playerdata.xml");
+		string content = System.IO.File.ReadAllText( "SaveData/" + saveGame + "/playerdata.xml");
 		xml.LoadXml( content );
 
 		XmlNode node = xml.DocumentElement.SelectSingleNode ("/data");
@@ -171,7 +181,9 @@ public class Instantiator : MonoBehaviour
 			{
 				//pos = go.GetComponent<RectTransform>().position;
 				pos = go.transform.position;
+
 			}
+
 		}
 
 		player.pos = pos;
@@ -198,7 +210,7 @@ public class Instantiator : MonoBehaviour
 		
 		XmlDocument xml = new XmlDocument ();
 		
-		string content = System.IO.File.ReadAllText( Application.dataPath + "/Resources/Data/GameData/GlobalData/abilitydata.xml");
+		string content = System.IO.File.ReadAllText( "Assets/Resources/Data/GameData/GlobalData/abilitydata.xml");
 		xml.LoadXml( content );
 		
 		foreach (XmlNode node in xml.DocumentElement.SelectNodes ("/data/ability")) 

@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using UnityEditor;
+//using UnityEditor;
 using System.IO;
 using System.Collections;
 
@@ -105,7 +105,7 @@ public class SaveData : MonoBehaviour
 
 	void writeFile(string saveGame, string fileName, string data)
 	{
-		string filePath = Application.dataPath + "/Resources/Data/SaveData/" + saveGame + "/" + fileName + ".xml";
+		string filePath = "SaveData/" + saveGame + "/" + fileName + ".xml";
 
 		var sr = File.CreateText(filePath);
 		sr.WriteLine (data);

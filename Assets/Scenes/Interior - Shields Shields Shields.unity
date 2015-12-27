@@ -2049,7 +2049,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11488636, guid: 07253af67226145c7a5f31836b9e1858, type: 2}
       propertyPath: dialogueItems.Array.data[7].questPrerequisiteIDs.Array.data[0]
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 07253af67226145c7a5f31836b9e1858, type: 2}

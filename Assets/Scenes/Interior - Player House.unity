@@ -1909,7 +1909,7 @@ MonoBehaviour:
   GlobalGameManager: {fileID: 110314, guid: 421de922bf9b943a38e74a2acab2e960, type: 2}
   gm: {fileID: 0}
   saveGame: Frye
-  PC: {fileID: 0}
+  PC: {fileID: 1992178430}
 --- !u!4 &1902179747
 Transform:
   m_ObjectHideFlags: 0

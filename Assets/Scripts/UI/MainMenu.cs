@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using UnityEditor;
+//using UnityEditor;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -20,7 +20,7 @@ public class MainMenu : MonoBehaviour
 
 	public void startNewGame(string SaveGameName)
 	{
-		string path = @"Assets/Resources/Data/SaveData/" + SaveGameName;
+		string path = @"SaveData/" + SaveGameName;
 
 		if (Directory.Exists (path)) 
 		{
@@ -30,22 +30,87 @@ public class MainMenu : MonoBehaviour
 		{
 			createNewSaveGame (SaveGameName);
 			pnl_SaveGameNameInputBG.SetActive(false);
-			Application.LoadLevel ("Interior - Player House");
+
+			setCurrentSaveGame(SaveGameName);
+
+			StartCoroutine(loadLevel(2.0f,"Interior - Player House"));
+
 		}
+	}
+
+	IEnumerator loadLevel(float waitSeconds, string sceneName) 
+	{
+		yield return new WaitForSeconds(waitSeconds);
+		Application.LoadLevel (sceneName);
+	}
+	
+	public void setCurrentSaveGame(string SaveGameName)
+	{
+		string data = SaveGameName;
+
+		var sr = File.CreateText ("SaveData/currentSaveGame.txt");
+		sr.Write (data);
+		sr.Close ();
 	}
 
 	public void createNewSaveGame(string SaveGameName)
 	{
-		FileUtil.CopyFileOrDirectory (@"Assets/Resources/Data/GameData/SaveGameTemplate",@"Assets/Resources/Data/SaveData/" + SaveGameName);
+		//FileUtil.CopyFileOrDirectory (@"Assets/Resources/Data/GameData/SaveGameTemplate",@"Assets/Resources/Data/SaveData/" + SaveGameName);
+		dirCopy ( @"Assets/Resources/Data/GameData/SaveGameTemplate", @"SaveData/" + SaveGameName, true);
+	}
+
+	public void dirCopy(string sourceDirName, string destDirName, bool copySubDirs)
+	{
+		// Get the subdirectories for the specified directory.
+		DirectoryInfo dir = new DirectoryInfo(sourceDirName);
+		
+		if (!dir.Exists)
+		{
+			throw new DirectoryNotFoundException(
+				"Source directory does not exist or could not be found: "
+				+ sourceDirName);
+		}
+		
+		DirectoryInfo[] dirs = dir.GetDirectories();
+		// If the destination directory doesn't exist, create it.
+		if (!Directory.Exists(destDirName))
+		{
+			Directory.CreateDirectory(destDirName);
+		}
+		
+		// Get the files in the directory and copy them to the new location.
+		FileInfo[] files = dir.GetFiles();
+		foreach (FileInfo file in files)
+		{
+			string temppath = Path.Combine(destDirName, file.Name);
+			file.CopyTo(temppath, false);
+		}
+		
+		// If copying subdirectories, copy them and their contents to new location.
+		if (copySubDirs)
+		{
+			foreach (DirectoryInfo subdir in dirs)
+			{
+				string temppath = Path.Combine(destDirName, subdir.Name);
+				dirCopy(subdir.FullName, temppath, copySubDirs);
+			}
+		}
 	}
 
 	public void showLoadGameDialogue()
 	{
+		DirectoryInfo dir = new DirectoryInfo("SaveData");
+		
+		if (!dir.Exists) 
+		{
+			Directory.CreateDirectory("SaveData");
+		}
+
 		clearList (loadGameButtons);
 
 		pnl_LoadSaveGames.SetActive (true);
 
-		string[] gameSaves = Directory.GetDirectories(@"Assets/Resources/Data/SaveData");
+		string[] gameSaves = Directory.GetDirectories(@"SaveData");
 
 		foreach (string gameSave in gameSaves) 
 		{
@@ -77,10 +142,16 @@ public class MainMenu : MonoBehaviour
 	public void loadGame(string saveGameName)
 	{
 		XmlDocument xml = new XmlDocument ();
-		string content = System.IO.File.ReadAllText( Application.dataPath + "/Resources/Data/SaveData/" + saveGameName + "/playerdata.xml");
+		//string content = System.IO.File.ReadAllText( Application.dataPath + "/Resources/Data/SaveData/" + saveGameName + "/playerdata.xml");
+		//xml.LoadXml( content );
+
+		string content = File.ReadAllText ("SaveData/" + saveGameName + "/playerdata.xml");  
 		xml.LoadXml( content );
+
 		XmlNode node = xml.DocumentElement.SelectSingleNode ("/data");
 
-		Application.LoadLevel (node ["scene"].InnerText);
+		setCurrentSaveGame(saveGameName);
+
+		StartCoroutine (loadLevel (5.0f, node ["scene"].InnerText));
 	}
 }
