@@ -53,7 +53,7 @@ public class Instantiator : MonoBehaviour
 		
 		XmlDocument xml = new XmlDocument ();
 		
-		string content = System.IO.File.ReadAllText( "Assets/Resources/Data/GameData/GlobalData/classdata.xml");
+		string content = System.IO.File.ReadAllText( "./Assets/Resources/Data/GameData/GlobalData/classdata.xml");
 		xml.LoadXml( content );
 		
 		foreach (XmlNode node in xml.DocumentElement.SelectNodes ("/data/class")) 
@@ -87,7 +87,7 @@ public class Instantiator : MonoBehaviour
 		
 		XmlDocument xml = new XmlDocument ();
 		
-		string content = System.IO.File.ReadAllText( "Assets/Resources/Data/GameData/GlobalData/abilitydata.xml");
+		string content = System.IO.File.ReadAllText( "./Assets/Resources/Data/GameData/GlobalData/abilitydata.xml");
 		xml.LoadXml( content );
 		
 		foreach (XmlNode node in xml.DocumentElement.SelectNodes ("/data/ability")) 

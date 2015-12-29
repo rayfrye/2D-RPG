@@ -234,7 +234,6 @@ public class Dialogue : MonoBehaviour
 		string sceneToLoad = localGameManager.possibleBattleScenes [Random.Range (0, localGameManager.possibleBattleScenes.Count)];
 		Debug.Log ("Starting Battle at " + sceneToLoad);
 		GameObject instantiator_go = GameObject.Find ("Instantiator");
-		//SaveData saveData = instantiator_go.GetComponent<SaveData> ();
 		Instantiator instantiator = instantiator_go.GetComponent<Instantiator> ();
 		Vector3 pos = instantiator.gm.pcGo.GetComponent<RectTransform> ().localPosition;
 		GameManager.Game.current.player.pos_x = pos.x;
@@ -242,7 +241,6 @@ public class Dialogue : MonoBehaviour
 		GameManager.Game.current.player.pos_z = pos.z;
 		GameManager.Game.current.player.useCoordinates = true;
 
-		//saveData.saveData (instantiator.gm,GameManager.Game.current.player.scene,pos,"","FALSE");
 		SaveData.save ("current_game");
 		SaveData.save (GameManager.Game.current.saveName);
 

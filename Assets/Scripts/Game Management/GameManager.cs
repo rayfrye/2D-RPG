@@ -118,25 +118,25 @@ public class GameManager : MonoBehaviour
 	#region variables
 	public GameObject instantiator;
 	public string saveGame;
-//	public List<Quest> quests = new List<Quest>();
 	public string currentScene;
 
 	public List<string> possibleBattleScenes = new List<string>();
 
-//	public List<Character> characters = new List<Character>();
 	public List<CharacterClass> characterClasses = new List<CharacterClass> ();
 	public List<Ability> abilities = new List<Ability> ();
 	
 	public GameObject pcGo;
-
-//	public Player player;
-//	public Player enemy;
 
 	#endregion variables
 
 	#region components
 	public GameObject localGameManager;
 	#endregion components
+
+	void Start()
+	{
+		DontDestroyOnLoad (this);
+	}
 
 	public Vector3 currentPClocation()
 	{
