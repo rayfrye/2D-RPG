@@ -27,7 +27,7 @@ public class LocalGameManagerBattle : MonoBehaviour
 	public GameObject btn_CharacterStatus;
 
 	public List<GameObject> characterGameObjects = new List<GameObject> ();
-	public Dictionary<GameManager.Character,int> battleOrder = new Dictionary<GameManager.Character,int>();
+	public Dictionary<int,int> battleOrder = new Dictionary<int,int>();
 
 	public Transform pnl_Actions;
 	public GameObject btn_Action;
@@ -61,7 +61,7 @@ public class LocalGameManagerBattle : MonoBehaviour
 	}
 	public GameManager.Character currentTurnCharacter()
 	{
-		return battleOrder.Keys.ElementAt(currentTurnIndex);
+		return GameManager.Game.current.characters[battleOrder.Keys.ElementAt(currentTurnIndex)];
 	}
 	#endregion variables
 
@@ -78,21 +78,21 @@ public class LocalGameManagerBattle : MonoBehaviour
 	{
 		if (battleStarted)
 		{
-			if(!isStillCharacters(gameManager.player.party))
+			if(!isStillCharacters(GameManager.Game.current.player.partyIDs))
 			{
 				Debug.Log ("Player party all dead!");
 				endBattle(false);
 			}
 			else
 			{
-				if(!isStillCharacters(gameManager.enemy.party))
+				if(!isStillCharacters(GameManager.Game.current.enemy.partyIDs))
 				{
 					Debug.Log ("Enemy party all dead!");
 					endBattle(true);
 				}
 				else
 				{
-					if(gameManager.player.party.Contains (currentTurnCharacter ()))
+					if(GameManager.Game.current.player.partyIDs.Contains (currentTurnCharacter ().id))
 					{
 						playerTakeTurn();
 					}
@@ -114,30 +114,28 @@ public class LocalGameManagerBattle : MonoBehaviour
 		}
 		else 
 		{
-			charactersWinBattle(gameManager.player.party);
+			charactersWinBattle(GameManager.Game.current.player.partyIDs);
 			actionRunAway();
 		}
 	}
 
-	void charactersWinBattle(List<GameManager.Character> characters)
+	void charactersWinBattle(List<int> characterIDs)
 	{
 		int xp = Random.Range (1,100);
 
-		foreach (GameManager.Character character in characters) 
+		foreach (int characterID in characterIDs) 
 		{
-			character.experience += xp;
+			GameManager.Game.current.characters[characterID].experience += xp;
 		}
-
-
 	}
 
-	bool isStillCharacters(List<GameManager.Character> characters)
+	bool isStillCharacters(List<int> characterIDs)
 	{
 		bool b = false;
 
-		foreach (GameManager.Character character in characters) 
+		foreach (int characterID in characterIDs) 
 		{
-			if(character.currentHealth > 0)
+			if(GameManager.Game.current.characters[characterID].currentHealth > 0)
 			{
 				return true;
 			}
@@ -215,8 +213,8 @@ public class LocalGameManagerBattle : MonoBehaviour
 	{
 		if (Time.time - timeToWait > timeStartedAction) 
 		{
-			GameManager.Ability ability = currentTurnCharacter().abilities[Random.Range (0,currentTurnCharacter().abilities.Count)];
-			NPCDoAbility (ability);
+			int abilityID = currentTurnCharacter().abilityIDs[Random.Range (0,currentTurnCharacter().abilityIDs.Count)];
+			NPCDoAbility (gameManager.abilities[abilityID]);
 
 			Debug.Log ("NPC done doing ability");
 			currentNPCTurnActionType = NPCTurnActionTypes.EndTurn;
@@ -227,18 +225,18 @@ public class LocalGameManagerBattle : MonoBehaviour
 		}
 	}
 
-	Dictionary<GameManager.Character,int> getBattleOrder()
+	Dictionary<int,int> getBattleOrder()
 	{
-		Dictionary<GameManager.Character,int> tempBattleOrder = new Dictionary<GameManager.Character,int> ();
-		List<GameManager.Character> tempCharacters = new List<GameManager.Character> ();
+		Dictionary<int,int> tempBattleOrder = new Dictionary<int,int> ();
+		List<int> tempCharacterIDs = new List<int> ();
 
-		tempCharacters.AddRange (gameManager.player.party);
-		tempCharacters.AddRange (gameManager.enemy.party);
+		tempCharacterIDs.AddRange (GameManager.Game.current.player.partyIDs);
+		tempCharacterIDs.AddRange (GameManager.Game.current.enemy.partyIDs);
 
-		foreach (GameManager.Character character in tempCharacters)
+		foreach (int characterID in tempCharacterIDs)
 		{
 			int roll = Random.Range (1,21);
-			int adjustedRoll = roll + character.totalSpeed;
+			int adjustedRoll = roll + GameManager.Game.current.characters[characterID].totalSpeed;
 
 			do
 			{
@@ -246,15 +244,15 @@ public class LocalGameManagerBattle : MonoBehaviour
 				{
 					Debug.Log ("rerolling");
 					roll = Random.Range (1,21);
-					adjustedRoll = roll + character.totalSpeed;
+					adjustedRoll = roll + GameManager.Game.current.characters[characterID].totalSpeed;
 				}
 				else
 				{
-					Debug.Log ("adding " + character.name + " to battle order");
-					tempBattleOrder.Add (character,adjustedRoll);
+					Debug.Log ("adding " + GameManager.Game.current.characters[characterID].name + " to battle order");
+					tempBattleOrder.Add (characterID,adjustedRoll);
 				}
 			}
-			while(!tempBattleOrder.ContainsKey(character));
+			while(!tempBattleOrder.ContainsKey(characterID));
 		}
 
 		tempBattleOrder = sortBattleOrder (tempBattleOrder);
@@ -262,11 +260,11 @@ public class LocalGameManagerBattle : MonoBehaviour
 		return tempBattleOrder;
 	}
 
-	Dictionary<GameManager.Character,int> sortBattleOrder(Dictionary<GameManager.Character,int> d)
+	Dictionary<int,int> sortBattleOrder(Dictionary<int,int> d)
 	{
-		Dictionary<GameManager.Character,int> sorted = new Dictionary<GameManager.Character,int>();
+		Dictionary<int,int> sorted = new Dictionary<int,int>();
 
-		foreach (KeyValuePair<GameManager.Character,int> item in d.OrderBy(i => i.Value))
+		foreach (KeyValuePair<int,int> item in d.OrderBy(i => i.Value))
 		{
 			sorted.Add (item.Key,item.Value);
 		}
@@ -276,8 +274,8 @@ public class LocalGameManagerBattle : MonoBehaviour
 
 	void instantiateCharacters()
 	{
-		drawCharacters (gameManager.player.party, playerSpawnPoints, pnl_FriendlyStatus, btn_friendlyStatuses, PlayerController.Direction.East);
-		drawCharacters (gameManager.enemy.party, enemySpawnPoints, pnl_EnemyStatus,btn_enemyStatuses, PlayerController.Direction.West);
+		drawCharacters (GameManager.Game.current.player.partyIDs, playerSpawnPoints, pnl_FriendlyStatus, btn_friendlyStatuses, PlayerController.Direction.East);
+		drawCharacters (GameManager.Game.current.enemy.partyIDs, enemySpawnPoints, pnl_EnemyStatus,btn_enemyStatuses, PlayerController.Direction.West);
 	}
 
 	void updateCharacters()
@@ -292,16 +290,17 @@ public class LocalGameManagerBattle : MonoBehaviour
 		btn_enemyStatuses.Clear ();
 		btn_AllStatuses.Clear ();
 
-		drawCharacters (gameManager.player.party, playerSpawnPoints, pnl_FriendlyStatus, btn_friendlyStatuses, PlayerController.Direction.East);
-		drawCharacters (gameManager.enemy.party, enemySpawnPoints, pnl_EnemyStatus,btn_enemyStatuses, PlayerController.Direction.West);
+		drawCharacters (GameManager.Game.current.player.partyIDs, playerSpawnPoints, pnl_FriendlyStatus, btn_friendlyStatuses, PlayerController.Direction.East);
+		drawCharacters (GameManager.Game.current.enemy.partyIDs, enemySpawnPoints, pnl_EnemyStatus,btn_enemyStatuses, PlayerController.Direction.West);
 	}
 
-	void drawCharacters(List<GameManager.Character> party, List<GameObject> spawnPositions, Transform statusParent, List<GameObject> statusGrouping, PlayerController.Direction dir)
+	void drawCharacters(List<int> partyIDs, List<GameObject> spawnPositions, Transform statusParent, List<GameObject> statusGrouping, PlayerController.Direction dir)
 	{
 		int posID = 0;
 		
-		foreach (GameManager.Character character in party) 
+		foreach (int characterID in partyIDs) 
 		{
+			GameManager.Character character = GameManager.Game.current.characters[characterID];
 			GameObject newCharacter = (GameObject) Instantiate(battleCharacter);
 			newCharacter.transform.SetParent (spawnPositions[posID].transform);
 			newCharacter.GetComponent<RectTransform>().localPosition = new Vector3(0,0,0);
@@ -348,10 +347,10 @@ public class LocalGameManagerBattle : MonoBehaviour
 
 		for (int i = 0; i < btn_Abilities.Count; i++) 
 		{
-			if(i < gameManager.player.party[id].abilities.Count)
+			if(i < GameManager.Game.current.characters[GameManager.Game.current.player.partyIDs[id]].abilityIDs.Count)
 			{
 				btn_Abilities[i].GetComponent<Button>().onClick.RemoveAllListeners();
-				GameManager.Ability a = gameManager.player.party[id].abilities[i];
+				GameManager.Ability a = gameManager.abilities[GameManager.Game.current.characters[GameManager.Game.current.player.partyIDs[id]].abilityIDs[i]];
 				btn_Abilities[i].GetComponentInChildren<Text>().text = a.name;
 				btn_Abilities[i].GetComponent<Button>().onClick.AddListener(() => setupAbilityTargetButtons(a));
 			}
@@ -368,26 +367,26 @@ public class LocalGameManagerBattle : MonoBehaviour
 		{
 			go.GetComponent<Button>().onClick.RemoveAllListeners();
 			btn_CharacterStatus cs = go.GetComponent<btn_CharacterStatus>();
-			go.GetComponent<Button>().onClick.AddListener(() => playerDoAbility(cs.character,a));
+			go.GetComponent<Button>().onClick.AddListener(() => playerDoAbility(cs.character.id,a));
 		}
 
 		Debug.Log ("Choose Target");
 	}
 
-	public void playerDoAbility(GameManager.Character target, GameManager.Ability a)
+	public void playerDoAbility(int targetID, GameManager.Ability a)
 	{
-		doAbility(a, target);
+		doAbility(a, targetID);
 		currentPlayerTurnActionType = PlayerTurnActionTypes.EndTurn;
 	}
 
 	public void NPCDoAbility(GameManager.Ability a)
 	{
-		GameManager.Character target = findTarget("ENEMY");
+		int targetID = findTarget("ENEMY");
 
-		doAbility(a, target);
+		doAbility(a, targetID);
 	}
 
-	public void doAbility(GameManager.Ability a, GameManager.Character target)
+	public void doAbility(GameManager.Ability a, int targetID)
 	{
 		switch (a.id)
 		{
@@ -395,7 +394,7 @@ public class LocalGameManagerBattle : MonoBehaviour
 		{
 			Debug.Log ("Doing ability '" + a.name + "'");
 			
-			doDamage (currentTurnCharacter (),target,a.numDice,a.numSides);
+			doDamage (currentTurnCharacter ().id,targetID,a.numDice,a.numSides);
 			
 			break;
 		}
@@ -416,33 +415,33 @@ public class LocalGameManagerBattle : MonoBehaviour
 		currentTurnIndex %= battleOrder.Count;
 	}
 
-	public GameManager.Character findTarget(string abilityTargetFaction)
+	public int findTarget(string abilityTargetFaction)
 	{
-		GameManager.Character character = currentTurnCharacter ();
+		int characterID = 0;
 
 		switch (abilityTargetFaction.ToUpper ()) 
 		{
 		case "FRIENDLY":
 		{
-			if (gameManager.player.party.Contains (currentTurnCharacter ())) 
+			if (GameManager.Game.current.player.partyIDs.Contains (currentTurnCharacter ().id)) 
 			{
-				character = gameManager.player.party[Random.Range (0,gameManager.player.party.Count)];
+				characterID = GameManager.Game.current.player.partyIDs[Random.Range (0,GameManager.Game.current.player.partyIDs.Count)];
 			}
 			else
 			{
-				character = gameManager.enemy.party[Random.Range (0,gameManager.enemy.party.Count)];
+				characterID = GameManager.Game.current.enemy.partyIDs[Random.Range (0,GameManager.Game.current.enemy.partyIDs.Count)];
 			}
 			break;
 		}
 		case "ENEMY":
 		{
-			if (gameManager.player.party.Contains (currentTurnCharacter ())) 
+			if (GameManager.Game.current.player.partyIDs.Contains (currentTurnCharacter ().id)) 
 			{
-				character = gameManager.enemy.party[Random.Range (0,gameManager.player.party.Count)];
+				characterID = GameManager.Game.current.enemy.partyIDs[Random.Range (0,GameManager.Game.current.enemy.partyIDs.Count)];
 			}
 			else
 			{
-				character = gameManager.player.party[Random.Range (0,gameManager.enemy.party.Count)];
+				characterID = GameManager.Game.current.player.partyIDs[Random.Range (0,GameManager.Game.current.player.partyIDs.Count)];
 			}
 			break;
 		}
@@ -452,15 +451,15 @@ public class LocalGameManagerBattle : MonoBehaviour
 		}
 		}
 
-		Debug.Log ("Targeting " + character.name);
+		Debug.Log ("Targeting " + GameManager.Game.current.characters[characterID].name);
 
-		return character;
+		return characterID;
 	}
 
 	public void actionRunAway()
 	{
-		SaveData saveData = GameObject.Find ("Instantiator").GetComponent<SaveData> ();
-		saveData.saveCharacterData (gameManager);
+		//SaveData saveData = GameObject.Find ("Instantiator").GetComponent<SaveData> ();
+		//saveData.saveCharacterData (gameManager);
 
 		XmlDocument xml = new XmlDocument ();
 		
@@ -472,11 +471,11 @@ public class LocalGameManagerBattle : MonoBehaviour
 		Application.LoadLevel (node ["scene"].InnerText);
 	}
 
-	public void doDamage(GameManager.Character attacker, GameManager.Character defender, int numDice, int numSides)
+	public void doDamage(int attackerID, int defenderID, int numDice, int numSides)
 	{
 		List<int> dice = new List<int> ();
 
-		int totalDamage = attacker.totalStrength * numDice;
+		int totalDamage = GameManager.Game.current.characters[attackerID].totalStrength * numDice;
 
 		for(int i = 1; i <= numDice; i++)
 		{
@@ -487,25 +486,25 @@ public class LocalGameManagerBattle : MonoBehaviour
 			totalDamage += rollValue;
 		}
 
-		int totalDefense = Random.Range (0, defender.totalDefense);
+		int totalDefense = Random.Range (0, GameManager.Game.current.characters[defenderID].totalDefense);
 
 		totalDamage = Mathf.Max (0,totalDamage - totalDefense);
 
-		Debug.Log (attacker.name + " attacks " + defender.name + " for " + totalDamage);
+		Debug.Log (GameManager.Game.current.characters[attackerID].name + " attacks " + GameManager.Game.current.characters[defenderID].name + " for " + totalDamage);
 
-		if (totalDamage < defender.currentHealth) 
+		if (totalDamage < GameManager.Game.current.characters[defenderID].currentHealth) 
 		{
-			defender.currentHealth -= totalDamage;
+			GameManager.Game.current.characters[defenderID].currentHealth -= totalDamage;
 		} 
 		else
 		{
-			defender.currentHealth = 0;
-			battleOrder.Remove (defender);
+			GameManager.Game.current.characters[defenderID].currentHealth = 0;
+			battleOrder.Remove (GameManager.Game.current.characters[defenderID].id);
 
 			int index = currentTurnIndex;
 			for(int i = 0; i < battleOrder.Count; i++)
 			{
-				if(battleOrder.Keys.ElementAt(i) == attacker)
+				if(battleOrder.Keys.ElementAt(i) == GameManager.Game.current.characters[attackerID].id)
 				{
 					index = i;
 				}

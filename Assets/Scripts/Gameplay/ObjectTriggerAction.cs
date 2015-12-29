@@ -36,9 +36,17 @@ public class ObjectTriggerAction : MonoBehaviour
 			//gameManager.currentPClocation = new Vector3(x,y,z);
 			//gameManager.currentPClocation = new Vector3(x,y,z);
 
-			gameManager.currentScene = scene;
+			//gameManager.currentScene = scene;
 
-			gameManager.instantiator.GetComponent<SaveData>().saveData (gameManager, scene, gameManager.currentPClocation, waypoint_name,"FALSE");
+			//gameManager.instantiator.GetComponent<SaveData>().saveData (gameManager, scene, gameManager.pcGo.GetComponent<RectTransform>().localPosition, waypoint_name,"FALSE");
+
+			//SaveData saveData = instantiator_go.GetComponent<SaveData> ();
+			GameManager.Game.current.player.spawnpoint = vs;
+			GameManager.Game.current.player.scene = scene;
+						
+			//saveData.saveData (instantiator.gm,GameManager.Game.current.player.scene,pos,"","FALSE");
+			SaveData.save ("current_game");
+			SaveData.save (GameManager.Game.current.saveName);
 
 			Application.LoadLevel(scene);
 

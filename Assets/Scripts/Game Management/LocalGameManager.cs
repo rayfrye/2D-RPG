@@ -28,7 +28,7 @@ public class LocalGameManager : MonoBehaviour
 		string sceneName = Application.loadedLevelName;
 		//sceneName = sceneName.Substring (0, sceneName.IndexOf ("."));
 
-		GameObject sceneManager = GameObject.Find (gm.player.scene);
+		GameObject sceneManager = GameObject.Find (GameManager.Game.current.player.scene);
 
 		if (sceneManager)
 		{

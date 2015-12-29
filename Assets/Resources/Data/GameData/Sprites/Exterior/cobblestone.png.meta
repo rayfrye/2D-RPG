@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 5ceb557bdf2694a3f92c8c20c667e5b7
-timeCreated: 1450981536
+timeCreated: 1451330928
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -13,6 +13,10 @@ TextureImporter:
     21300012: cobblestone_6
     21300014: cobblestone_7
     21300016: cobblestone_8
+    21300018: cobblestone_9
+    21300020: cobblestone_10
+    21300022: cobblestone_12
+    21300024: cobblestone_13
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -62,7 +66,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 40
+        y: 100
         width: 20
         height: 20
       alignment: 1
@@ -72,7 +76,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 20
-        y: 40
+        y: 100
         width: 20
         height: 20
       alignment: 1
@@ -82,7 +86,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 40
-        y: 40
+        y: 100
         width: 20
         height: 20
       alignment: 1
@@ -92,7 +96,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 20
+        y: 80
         width: 20
         height: 20
       alignment: 1
@@ -102,7 +106,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 20
-        y: 20
+        y: 80
         width: 20
         height: 20
       alignment: 1
@@ -112,7 +116,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 40
-        y: 20
+        y: 80
         width: 20
         height: 20
       alignment: 1
@@ -122,7 +126,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
+        y: 60
         width: 20
         height: 20
       alignment: 1
@@ -132,7 +136,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 20
-        y: 0
+        y: 60
         width: 20
         height: 20
       alignment: 1
@@ -142,7 +146,47 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 40
-        y: 0
+        y: 60
+        width: 20
+        height: 20
+      alignment: 1
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: cobblestone_9
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 40
+        width: 20
+        height: 20
+      alignment: 1
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: cobblestone_10
+      rect:
+        serializedVersion: 2
+        x: 20
+        y: 40
+        width: 20
+        height: 20
+      alignment: 1
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: cobblestone_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 20
+        width: 20
+        height: 20
+      alignment: 1
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: cobblestone_13
+      rect:
+        serializedVersion: 2
+        x: 20
+        y: 20
         width: 20
         height: 20
       alignment: 1

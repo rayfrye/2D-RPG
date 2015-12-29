@@ -1614,7 +1614,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1728644377}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aae6a92a288b0421684fef7d15a65c2d, type: 3}
   m_Name: 
@@ -1623,6 +1623,7 @@ MonoBehaviour:
   gm: {fileID: 0}
   saveGame: 
   PC: {fileID: 0}
+  saveData: {fileID: 0}
 --- !u!4 &1728644380
 Transform:
   m_ObjectHideFlags: 0

@@ -21,6 +21,6 @@ public class CharacterGameObjectStats : MonoBehaviour
 
 	void getCharacter()
 	{
-		character = localGameManager.gameManager.characters [characterID];
+		character = GameManager.Game.current.characters [characterID];
 	}
 }

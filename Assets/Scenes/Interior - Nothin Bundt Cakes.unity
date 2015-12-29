@@ -1428,6 +1428,7 @@ MonoBehaviour:
   gm: {fileID: 0}
   saveGame: Frye
   PC: {fileID: 1749550496}
+  saveData: {fileID: 1902179748}
 --- !u!4 &1902179747
 Transform:
   m_ObjectHideFlags: 0
@@ -1451,6 +1452,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fa96c4023fe845758128b48697723be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  savedGames: []
 --- !u!1 &1914703272
 GameObject:
   m_ObjectHideFlags: 0

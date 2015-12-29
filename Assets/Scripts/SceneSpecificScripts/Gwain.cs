@@ -16,7 +16,7 @@ public class Gwain : MonoBehaviour
 
 	void moveGuards()
 	{
-		if (gameManager.quests [0].isComplete) 
+		if (GameManager.Game.current.quests [0].isComplete) 
 		{
 			Guard1.GetComponent<RectTransform>().localPosition = new Vector3(16,16,0);
 			Guard2.GetComponent<RectTransform>().localPosition = new Vector3(19,16,0);

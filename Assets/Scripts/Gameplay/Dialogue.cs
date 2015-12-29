@@ -139,7 +139,7 @@ public class Dialogue : MonoBehaviour
 
 	string replaceSpecialText(string s)
 	{
-		return s.Replace ("<PlayerName>", localGameManager.gameManager.saveGame);
+		return s.Replace ("<PlayerName>", GameManager.Game.current.saveName);
 	}
 
 	public void clearBtnResponses()
@@ -194,7 +194,7 @@ public class Dialogue : MonoBehaviour
 				foreach(int questPrerequisiteID in dialogueItem.questPrerequisiteIDs)
 				{
 					print (questPrerequisiteID);
-					if(localGameManager.gameManager.quests[questPrerequisiteID].isComplete)
+					if(GameManager.Game.current.quests[questPrerequisiteID].isComplete)
 					{
 						prereqsComplete = true;
 					}
@@ -206,7 +206,7 @@ public class Dialogue : MonoBehaviour
 				id = dialogueItem.id;
 			}
 		}
-		print (id);
+
 		return id;
 	}
 
@@ -229,23 +229,31 @@ public class Dialogue : MonoBehaviour
 	{
 		endConversation ();
 
-		localGameManager.gameManager.enemy.party = battleEnemies (new List<GameManager.Character> ());
+		GameManager.Game.current.enemy.partyIDs = battleEnemies (new List<int> ());
 
 		string sceneToLoad = localGameManager.possibleBattleScenes [Random.Range (0, localGameManager.possibleBattleScenes.Count)];
 		Debug.Log ("Starting Battle at " + sceneToLoad);
 		GameObject instantiator_go = GameObject.Find ("Instantiator");
-		SaveData saveData = instantiator_go.GetComponent<SaveData> ();
+		//SaveData saveData = instantiator_go.GetComponent<SaveData> ();
 		Instantiator instantiator = instantiator_go.GetComponent<Instantiator> ();
 		Vector3 pos = instantiator.gm.pcGo.GetComponent<RectTransform> ().localPosition;
-		saveData.saveData (instantiator.gm,instantiator.gm.player.scene,pos,"","FALSE");
+		GameManager.Game.current.player.pos_x = pos.x;
+		GameManager.Game.current.player.pos_y = pos.y;
+		GameManager.Game.current.player.pos_z = pos.z;
+		GameManager.Game.current.player.useCoordinates = true;
+
+		//saveData.saveData (instantiator.gm,GameManager.Game.current.player.scene,pos,"","FALSE");
+		SaveData.save ("current_game");
+		SaveData.save (GameManager.Game.current.saveName);
+
 		Application.LoadLevel (sceneToLoad);
 	}
 
-	public List<GameManager.Character> battleEnemies(List<GameManager.Character> enemies)
+	public List<int> battleEnemies(List<int> enemieIDs)
 	{
-		List<GameManager.Character> battleEnemies = new List<GameManager.Character>();
+		List<int> battleEnemies = new List<int>();
 
-		if (enemies.Count == 0) 
+		if (enemieIDs.Count == 0) 
 		{
 			List<int> availableEnemyIDs = localGameManager.possibleEnemyIDs;
 			int numOfEnemies = Random.Range (1,5);
@@ -254,14 +262,14 @@ public class Dialogue : MonoBehaviour
 			{
 				int enemyIDIndex = Random.Range (0,availableEnemyIDs.Count);
 				int enemyID = availableEnemyIDs[enemyIDIndex];
-				localGameManager.gameManager.characters[enemyID].currentHealth = localGameManager.gameManager.characters[enemyID].totalHealth;
-				battleEnemies.Add (localGameManager.gameManager.characters[enemyID]);
+				GameManager.Game.current.characters[enemyID].currentHealth = GameManager.Game.current.characters[enemyID].totalHealth;
+				battleEnemies.Add (enemyID);
 				availableEnemyIDs.Remove (enemyID);
 			}
 		}
 		else 
 		{
-			battleEnemies = enemies;
+			battleEnemies = enemieIDs;
 		}
 
 		return battleEnemies;
@@ -269,6 +277,6 @@ public class Dialogue : MonoBehaviour
 
 	public void completeQuest(int questID)
 	{
-		localGameManager.gameManager.quests [questID].isComplete = true;
+		GameManager.Game.current.quests [questID].isComplete = true;
 	}
 }

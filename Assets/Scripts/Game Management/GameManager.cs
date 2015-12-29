@@ -7,6 +7,19 @@ public class GameManager : MonoBehaviour
 {
 	#region classes
 	[System.Serializable]
+	public class Game
+	{
+		public static Game current;
+
+		public string saveName;
+
+		public List<Quest> quests = new List<Quest>();
+		public List<Character> characters = new List<Character>();
+		public Player player;
+		public Player enemy;
+	}
+
+	[System.Serializable]
 	public class Quest
 	{
 		public int id;
@@ -20,9 +33,13 @@ public class GameManager : MonoBehaviour
 	{
 		public string name;
 		public string characterSprite;
-		public List<Character> party = new List<Character>();
+		public List<int> partyIDs = new List<int>();
 		public string scene;
-		public Vector3 pos;
+		public bool useCoordinates;
+		public string spawnpoint;
+		public float pos_x;
+		public float pos_y;
+		public float pos_z;
 	}
 
 	[System.Serializable]
@@ -34,7 +51,6 @@ public class GameManager : MonoBehaviour
 		public int experience;
 
 		public int characterClassID;
-		public CharacterClass characterClass;
 
 		public int currentHealth;
 		public int totalHealth;
@@ -49,7 +65,7 @@ public class GameManager : MonoBehaviour
 		public int baseCharisma;
 		public int totalCharisma;
 
-		public List<Ability> abilities = new List<Ability> ();
+		public List<int> abilityIDs = new List<int> ();
 
 	}
 
@@ -96,32 +112,36 @@ public class GameManager : MonoBehaviour
 		Melee
 		,Ranged
 		,Magic
-
 	}
 	#endregion classes
 
 	#region variables
 	public GameObject instantiator;
 	public string saveGame;
-	public List<Quest> quests = new List<Quest>();
+//	public List<Quest> quests = new List<Quest>();
 	public string currentScene;
-	public Vector3 currentPClocation;
+
 	public List<string> possibleBattleScenes = new List<string>();
 
-	public List<Character> characters = new List<Character>();
+//	public List<Character> characters = new List<Character>();
 	public List<CharacterClass> characterClasses = new List<CharacterClass> ();
 	public List<Ability> abilities = new List<Ability> ();
 	
 	public GameObject pcGo;
 
-	public Player player;
-	public Player enemy;
+//	public Player player;
+//	public Player enemy;
 
 	#endregion variables
 
 	#region components
 	public GameObject localGameManager;
 	#endregion components
+
+	public Vector3 currentPClocation()
+	{
+		return new Vector3 (Game.current.player.pos_x, Game.current.player.pos_y, Game.current.player.pos_z);
+	}
 
 	void OnLevelWasLoaded()
 	{
@@ -142,8 +162,17 @@ public class GameManager : MonoBehaviour
 		if (pcGo) 
 		{
 			PlayerController pcGoPlayerController = pcGo.GetComponent<PlayerController> ();
-			pcGo.GetComponent<RectTransform> ().localPosition = player.pos;
-			pcGoPlayerController.spriteName = player.characterSprite;
+
+			if(GameManager.Game.current.player.useCoordinates)
+			{
+				pcGo.GetComponent<RectTransform> ().localPosition = new Vector3(GameManager.Game.current.player.pos_x, GameManager.Game.current.player.pos_y, GameManager.Game.current.player.pos_z);
+			}
+			else
+			{
+				pcGo.GetComponent<RectTransform> ().localPosition = GameObject.Find(GameManager.Game.current.player.spawnpoint).transform.position;
+			}
+
+			pcGoPlayerController.spriteName = GameManager.Game.current.player.characterSprite;
 			pcGoPlayerController.setupSprites ();
 		}
 	}
@@ -158,6 +187,7 @@ public class GameManager : MonoBehaviour
 
 	public void assignCharacterClassStats(Character c, int characterClassID)
 	{
+		/*
 		CharacterClass cc = characterClasses [characterClassID];
 		c.characterClass = cc;
 
@@ -171,5 +201,6 @@ public class GameManager : MonoBehaviour
 
 			c.abilities[i] = a;
 		}
+		*/
 	}
 }

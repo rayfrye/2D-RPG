@@ -1,10 +1,32 @@
 ﻿using UnityEngine;
-//using UnityEditor;
 using System.IO;
 using System.Collections;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Collections.Generic;
 
 public class SaveData : MonoBehaviour 
 {
+	public static void save(string saveGameName)
+	{
+		//SaveData.savedGames.Add(GameManager.Game.current);
+		BinaryFormatter bf = new BinaryFormatter();
+		FileStream file = File.Create (Application.persistentDataPath + "/" + saveGameName + ".gamedata");
+		bf.Serialize(file, GameManager.Game.current);
+		file.Close();
+	}
+
+	public static void load(string saveGameName)
+	{
+		if(File.Exists(Application.persistentDataPath + "/" + saveGameName + ".gamedata")) 
+		{
+			BinaryFormatter bf = new BinaryFormatter();
+			FileStream file = File.Open(Application.persistentDataPath + "/" + saveGameName + ".gamedata", FileMode.Open);
+			//SaveData.savedGames = (List<GameManager.Game>)bf.Deserialize(file);
+			GameManager.Game.current = (GameManager.Game)bf.Deserialize(file);
+			file.Close();
+		}
+	}
+	/*
 	public void saveData(GameManager gm, string scene, Vector3 position, string waypointName, string useCoordinates)
 	{
 		Debug.Log ("Saving " + gm.saveGame);
@@ -16,8 +38,8 @@ public class SaveData : MonoBehaviour
 	void savePlayerData(GameManager gm, string scene, Vector3 position, string waypointName, string useCoordinates)
 	{
 		string data = "<data>";
-		data += "\n\t<name>" + gm.player.name + "</name>";
-		data += "\n\t<characterSprite>" + gm.player.characterSprite + "</characterSprite>";
+		data += "\n\t<name>" + GameManager.Game.current.player.name + "</name>";
+		data += "\n\t<characterSprite>" + GameManager.Game.current.player.characterSprite + "</characterSprite>";
 		data += "\n\t<scene>" + scene + "</scene>";
 		data += "\n\t<waypoint_name>" + waypointName + "</waypoint_name>";
 		data += "\n\t<use_coordinates>" + useCoordinates + "</use_coordinates>";
@@ -26,16 +48,16 @@ public class SaveData : MonoBehaviour
 		data += "\n\t<position_z>" + position.z + "</position_z>";
 
 		data += "\n\t<party>";
-		foreach (GameManager.Character character in gm.player.party) 
+		foreach (int characterID in GameManager.Game.current.player.partyIDs) 
 		{
-			data += "\n\t\t<id>" + character.id + "</id>";
+			data += "\n\t\t<id>" + characterID + "</id>";
 		}
 		data += "\n\t</party>";
 
 		data += "\n\t<enemyparty>";
-		foreach (GameManager.Character character in gm.enemy.party) 
+		foreach (int characterID in GameManager.Game.current.enemy.partyIDs) 
 		{
-			data += "\n\t\t<id>" + character.id + "</id>";
+			data += "\n\t\t<id>" + characterID + "</id>";
 		}
 		data += "\n\t</enemyparty>";
 
@@ -48,7 +70,7 @@ public class SaveData : MonoBehaviour
 	{
 		string data = "<data>";
 
-		foreach (GameManager.Character character in gm.characters) 
+		foreach (GameManager.Character character in GameManager.Game.current.characters) 
 		{
 			data += "\n\t<character>";
 			data += "\n\t\t<id>" + character.id + "</id>";
@@ -70,9 +92,9 @@ public class SaveData : MonoBehaviour
 			data += "\n\t\t<totalCharisma>" + character.totalCharisma + "</totalCharisma>";
 			data += "\n\t\t<abilities>";
 
-			foreach(GameManager.Ability ability in character.abilities)
+			foreach(int abilityID in character.abilityIDs)
 			{
-				data += "\n\t\t\t<id>" + ability.id + "</id>";
+				data += "\n\t\t\t<id>" + abilityID + "</id>";
 			}
 
 			data += "\n\t\t</abilities>";
@@ -88,7 +110,7 @@ public class SaveData : MonoBehaviour
 	{
 		string data = "<data>";
 		
-		foreach (GameManager.Quest quest in gm.quests) 
+		foreach (GameManager.Quest quest in GameManager.Game.current.quests) 
 		{
 			data += "\n\t<quest>";
 			data += "\n\t\t<id>" + quest.id + "</id>";
@@ -101,6 +123,8 @@ public class SaveData : MonoBehaviour
 		data += "\n</data>";
 
 		writeFile (gm.saveGame, "questdata", data);
+
+
 	}
 
 	void writeFile(string saveGame, string fileName, string data)
@@ -111,4 +135,5 @@ public class SaveData : MonoBehaviour
 		sr.WriteLine (data);
 		sr.Close();
 	}
+	*/
 }
